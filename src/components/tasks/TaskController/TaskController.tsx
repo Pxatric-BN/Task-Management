@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import type { Task, TaskStatus } from '@/types/task'
+import type { Task, TaskStatus, TaskPriority } from '@/types/task'
 import { useGetTasks } from '@/hooks/'
 
 interface TaskControllerValue {
@@ -9,10 +9,12 @@ interface TaskControllerValue {
   view: 'card' | 'table'
   search: string
   status: TaskStatus | 'all'
+  priority: TaskPriority | 'all'
 
   setView: (v: 'card' | 'table') => void
   setSearch: (v: string) => void
   setStatus: (v: TaskStatus | 'all') => void
+  setPriority: (v: TaskPriority | 'all') => void
 }
 
 interface Props {
@@ -25,6 +27,7 @@ export const TaskController = ({ children }: Props) => {
   const [view, setView] = useState<'card' | 'table'>('card')
   const [search, setSearch] = useState('')
   const [status, setStatus] = useState<TaskStatus | 'all'>('all')
+  const [priority, setPriority] = useState<TaskPriority | 'all'>('all')
 
   const filteredTasks = useMemo(() => {
   return tasks.filter((task) => {
@@ -34,10 +37,13 @@ export const TaskController = ({ children }: Props) => {
 
     const matchStatus =
       status === 'all' || task.status === status
+    
+    const matchPriority =
+      priority === 'all' || task.priority === priority
 
-    return matchSearch && matchStatus
+    return matchSearch && matchStatus && matchPriority
   })
-}, [tasks, search, status])
+}, [tasks, search, status, priority])
 
 
   if (isLoading) return <div>Loading...</div>
@@ -48,8 +54,10 @@ export const TaskController = ({ children }: Props) => {
     view,
     search,
     status,
+    priority,
     setView,
     setSearch,
     setStatus,
+    setPriority,
   })
 }

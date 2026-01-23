@@ -9,7 +9,7 @@ import {
 import AddIcon from '@mui/icons-material/Add'
 import GridViewIcon from '@mui/icons-material/GridView'
 import ViewListIcon from '@mui/icons-material/ViewList'
-import type { TaskStatus } from '@/types/task'
+import type { TaskStatus, TaskPriority } from '@/types/task'
 
 interface Props {
   view: 'card' | 'table'
@@ -18,6 +18,8 @@ interface Props {
   onSearchChange: (v: string) => void
   status: TaskStatus | 'all'
   onStatusChange: (v: TaskStatus | 'all') => void
+  priority: TaskPriority | 'all'
+  onPriorityChange: (v: TaskPriority | 'all') => void
 }
 
 export const TaskToolBar = ({
@@ -27,6 +29,8 @@ export const TaskToolBar = ({
   onSearchChange,
   status,
   onStatusChange,
+  priority,
+  onPriorityChange,
 }: Props) => {
   return (
     <Box
@@ -60,6 +64,20 @@ export const TaskToolBar = ({
           <MenuItem value="pending">Pending</MenuItem>
           <MenuItem value="in-progress">In Progress</MenuItem>
           <MenuItem value="completed">Completed</MenuItem>
+        </TextField>
+         <TextField
+          select
+          size="small"
+          value={priority}
+          onChange={(e) =>
+            onPriorityChange(e.target.value as TaskPriority | 'all')
+          }
+          sx={{ width: 140 }}
+        >
+          <MenuItem value="all">All Priority</MenuItem>
+          <MenuItem value="low">Low</MenuItem>
+          <MenuItem value="medium">Medium</MenuItem>
+          <MenuItem value="high">High</MenuItem>
         </TextField>
       </Box>
 

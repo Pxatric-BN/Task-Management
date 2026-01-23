@@ -23,6 +23,8 @@ export const TaskSection = () => {
           setSearch,
           status,
           setStatus,
+          priority,
+          setPriority,
         }) => (
           <>
             <Box sx={styles.taskToolBarStyle}>
@@ -32,7 +34,9 @@ export const TaskSection = () => {
                 search={search}
                 onSearchChange={setSearch}
                 status={status}              
-                onStatusChange={setStatus}  
+                onStatusChange={setStatus}
+                priority={priority}
+                onPriorityChange={setPriority}
               />
             </Box>
            <Box sx={styles.taskContentStyle}>

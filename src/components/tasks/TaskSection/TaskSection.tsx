@@ -46,7 +46,7 @@ export const TaskSection = () => {
           {view === 'card' ? (
             <TaskCardList tasks={tasks} onSelect={openDetail} />
           ) : (
-            <TaskTable tasks={tasks} />
+            <TaskTable tasks={tasks} onSelect={openDetail}/>
           )}
         </Box>
           </>

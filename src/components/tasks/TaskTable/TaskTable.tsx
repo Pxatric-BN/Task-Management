@@ -16,7 +16,12 @@ import useStyles  from './TaskTable.style'
 import { STATUS_COLOR_MAP, PRIORITY_COLOR_MAP } from '@/constants'
 import { formatDate } from '@/utils/date'
 
-export const TaskTable = ({ tasks }: { tasks: Task[] }) => {
+interface Props {
+  tasks: Task[]
+  onSelect: (task: Task) => void
+}
+
+export const TaskTable = ({ tasks, onSelect }: Props) => {
   const styles = useStyles()
   return (
     <TableContainer component={Paper} sx={styles.containerStyle}>
@@ -34,7 +39,7 @@ export const TaskTable = ({ tasks }: { tasks: Task[] }) => {
 
         <TableBody>
           {tasks.map((task) => (
-            <TableRow key={task.id} hover>
+            <TableRow key={task.id} hover onClick={() => onSelect(task)}>
               <TableCell sx={styles.cellStyle}>
                 {task.title}
               </TableCell>
@@ -66,6 +71,9 @@ export const TaskTable = ({ tasks }: { tasks: Task[] }) => {
                     variant="outlined"
                     color="inherit"
                     sx={styles.actionButtonStyle}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                    }} 
                   >
                     Edit
                   </Button>
@@ -74,6 +82,9 @@ export const TaskTable = ({ tasks }: { tasks: Task[] }) => {
                     variant="outlined"
                     color="error"
                     sx={styles.actionButtonStyle}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                    }} 
                   >
                     Delete
                   </Button>

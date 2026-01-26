@@ -19,9 +19,11 @@ import { formatDate } from '@/utils/date'
 interface Props {
   tasks: Task[]
   onSelect: (task: Task) => void
+  onEdit: (task: Task) => void
+  onDelete: (task: Task) => void
 }
 
-export const TaskTable = ({ tasks, onSelect }: Props) => {
+export const TaskTable = ({ tasks, onSelect,onEdit,onDelete }: Props) => {
   const styles = useStyles()
   return (
     <TableContainer component={Paper} sx={styles.containerStyle}>
@@ -73,6 +75,7 @@ export const TaskTable = ({ tasks, onSelect }: Props) => {
                     sx={styles.actionButtonStyle}
                     onClick={(e) => {
                       e.stopPropagation()
+                      onEdit(task)
                     }} 
                   >
                     Edit
@@ -84,6 +87,7 @@ export const TaskTable = ({ tasks, onSelect }: Props) => {
                     sx={styles.actionButtonStyle}
                     onClick={(e) => {
                       e.stopPropagation()
+                      onDelete(task)
                     }} 
                   >
                     Delete

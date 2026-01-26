@@ -2,43 +2,45 @@
 
 import { useState } from 'react'
 import type { Task } from '@/types/task'
-import { TaskDetailModal } from '@/components/tasks'
 
-interface TaskModalControllerValue {
-  open: boolean
-  task: Task | null
-  openDetail: (task: Task) => void
-  close: () => void
-}
+type ModalType = 'detail' | 'edit' | 'delete' | null
 
-interface Props {
-  children: (value: TaskModalControllerValue) => React.ReactNode
-}
-
-export const TaskModalController = ({ children }: Props) => {
+export const TaskModalController = () => {
   const [open, setOpen] = useState(false)
+  const [type, setType] = useState<ModalType>(null)
   const [task, setTask] = useState<Task | null>(null)
 
   const openDetail = (task: Task) => {
     setTask(task)
+    setType('detail')
+    setOpen(true)
+  }
+
+  const openEdit = (task: Task) => {
+    setTask(task)
+    setType('edit')
+    setOpen(true)
+  }
+
+  const openDelete = (task: Task) => {
+    setTask(task)
+    setType('delete')
     setOpen(true)
   }
 
   const close = () => {
     setOpen(false)
+    setType(null)
     setTask(null)
   }
 
-  return (
-    <>
-      {children({
-        open,
-        task,
-        openDetail,
-        close,
-      })}
-
-      <TaskDetailModal open={open} task={task} onClose={close} />
-    </>
-  )
+  return {
+    open,
+    type,
+    task,
+    openDetail,
+    openEdit,
+    openDelete,
+    close,
+  }
 }

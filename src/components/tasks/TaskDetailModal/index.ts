@@ -1,0 +1,5 @@
+export {TaskDetailModal} from './TaskDetailModal'
+export {TaskDetailHeader} from './TaskDetailHeader'
+export {TaskDetailMeta} from './TaskDetailMeta'
+export {TaskDetailDescription} from './TaskDetailDescription'
+export {TaskDetailActivity} from './TaskDetailActivity'

@@ -6,13 +6,18 @@ import useStyles from './TaskCardList.style'
 import { STATUS_COLOR_MAP, PRIORITY_COLOR_MAP } from '@/constants'
 import { formatDate } from '@/utils'
 
-export const TaskCardList = ({ tasks }: { tasks: Task[] }) => {
+interface Props {
+  tasks: Task[]
+  onSelect: (task: Task) => void
+}
+
+export const TaskCardList = ({ tasks, onSelect }: Props) => {
   const styles = useStyles()
 
   return (
     <Box sx={styles.gridStyle}>
       {tasks.map((task) => (
-        <Box key={task.id} sx={styles.cardStyle}>
+        <Box key={task.id} sx={styles.cardStyle} onClick={() => onSelect(task)}>
           {/* HEADER */}
           <Box sx={styles.headerStyle}>
             <Typography sx={styles.titleStyle}>
@@ -52,10 +57,21 @@ export const TaskCardList = ({ tasks }: { tasks: Task[] }) => {
 
           {/* FOOTER */}
           <Box sx={styles.footerStyle}>
-            <Button size="small" variant="outlined" color="inherit" sx={styles.buttonStyle}>
+            <Button size="small" onClick={(e) => {
+              e.stopPropagation() 
+            }} 
+              variant="outlined" 
+              color="inherit" 
+              sx={styles.buttonStyle}>
               Edit
             </Button>
-            <Button size="small" variant="outlined" color="error" sx={styles.buttonStyle}>
+            <Button size="small" 
+            onClick={(e) => {
+              e.stopPropagation()
+            }} 
+            variant="outlined" 
+            color="error" 
+            sx={styles.buttonStyle}>
               Delete
             </Button>
           </Box>

@@ -8,12 +8,15 @@ import {
   TaskToolBar,
 } from '@/components/tasks'
 import useStyles from './TaskSection.style'
+import { TaskModalController } from '@/components/tasks'
 
 export const TaskSection = () => {
   const styles = useStyles()
 
   return (
     <Box sx={styles.taskSectionStyle}>
+      <TaskModalController>
+      {({ openDetail }) => (
       <TaskController>
         {({
           tasks,
@@ -41,7 +44,7 @@ export const TaskSection = () => {
             </Box>
            <Box sx={styles.taskContentStyle}>
           {view === 'card' ? (
-            <TaskCardList tasks={tasks} />
+            <TaskCardList tasks={tasks} onSelect={openDetail} />
           ) : (
             <TaskTable tasks={tasks} />
           )}
@@ -49,6 +52,8 @@ export const TaskSection = () => {
           </>
         )}
       </TaskController>
+       )}
+    </TaskModalController>
     </Box>
   )
 }

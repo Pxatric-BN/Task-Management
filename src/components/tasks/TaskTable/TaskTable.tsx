@@ -1,22 +1,88 @@
-import type { Task } from "@/types/task";
+import type { Task } from '@/types/task'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Chip,
+  Button,
+  Stack,
+} from '@mui/material'
+
+import useStyles  from './TaskTable.style'
+import { STATUS_COLOR_MAP, PRIORITY_COLOR_MAP } from '@/constants'
+import { formatDate } from '@/utils/date'
 
 export const TaskTable = ({ tasks }: { tasks: Task[] }) => {
+  const styles = useStyles()
   return (
-    <table className="w-full border">
-        <thead>
-            <tr>
-                <th className="border">Task</th>
-                <th className="border">Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            {tasks.map((task) => (
-                <tr key={task.id}>
-                    <td className="border px-4 py-2">{task.title}</td>
-                    <td className="border px-4 py-2">{task.status}</td>
-                </tr>
-            ))}
-        </tbody>
-    </table>
-  );
+    <TableContainer component={Paper} sx={styles.containerStyle}>
+      <Table>
+        <TableHead>
+        <TableRow sx={styles.headRowStyle}>
+            <TableCell>Task</TableCell>
+            <TableCell>Status</TableCell>
+            <TableCell>Priority</TableCell>
+            <TableCell>Due Date</TableCell>
+            <TableCell>Actions</TableCell>
+        </TableRow>
+        </TableHead>
+
+
+        <TableBody>
+          {tasks.map((task) => (
+            <TableRow key={task.id} hover>
+              <TableCell sx={styles.cellStyle}>
+                {task.title}
+              </TableCell>
+
+              <TableCell>
+                <Chip
+                  size="small"
+                  label={task.status}
+                  color={STATUS_COLOR_MAP[task.status]}
+                />
+              </TableCell>
+
+              <TableCell>
+                <Chip
+                  size="small"
+                  label={task.priority}
+                  color={PRIORITY_COLOR_MAP[task.priority]}
+                />
+              </TableCell>
+
+              <TableCell>
+                {formatDate(task.createdAt)}
+              </TableCell>
+
+              <TableCell>
+                <Stack direction="row" spacing={1}>
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    color="inherit"
+                    sx={styles.actionButtonStyle}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    color="error"
+                    sx={styles.actionButtonStyle}
+                  >
+                    Delete
+                  </Button>
+                </Stack>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  )
 }

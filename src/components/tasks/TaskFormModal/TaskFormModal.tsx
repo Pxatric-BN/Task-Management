@@ -1,0 +1,219 @@
+'use client'
+
+import { useEffect } from 'react'
+import { useForm, FormProvider, Controller } from 'react-hook-form'
+import { DatePicker } from '@mui/x-date-pickers'
+import dayjs from 'dayjs'
+import {
+  Box,
+  Button,
+  FormGroup,
+  TextField,
+  Typography,
+} from '@mui/material'
+
+import { zodResolver } from '@hookform/resolvers/zod'
+
+import TaskModal from '@/components/tasks/TaskModal/TaskModal'
+import type { Task, TaskStatus, TaskPriority } from '@/types/task'
+import {useCreateTask, useUpdateTask, useTaskFormSchema} from '@/hooks'
+type TaskFormFields = {
+  title: string
+  description?: string
+  status: TaskStatus
+  priority: TaskPriority
+  dueDate?: string
+}
+
+interface Props {
+  open: boolean
+  task?: Task | null
+  onClose: () => void
+  onSubmit?: (data: TaskFormFields) => void
+}
+
+export const TaskFormModal = ({
+  open,
+  task,
+  onClose,
+}: Props) => {
+  const isEditMode = !!task
+
+  const schema = useTaskFormSchema()  
+
+  const formHook = useForm<TaskFormFields>({
+  resolver: zodResolver(schema),
+  defaultValues: {
+    title: '',
+    description: '',
+    status: 'pending',
+    priority: 'medium',
+    dueDate: undefined,
+  },
+})
+
+  const createTaskMutation = useCreateTask()
+  const updateTaskMutation = useUpdateTask()
+  const handleFormSubmit = (data: TaskFormFields) => {
+  if (task) {
+    updateTaskMutation.mutate({
+      id: task.id,
+      data,
+    })
+  } else {
+    createTaskMutation.mutate(data)
+  }
+}
+
+  const { control, handleSubmit, reset } = formHook
+
+  useEffect(() => {
+    if (!open) return
+
+    if (task) {
+      reset({
+        title: task.title,
+        description: task.description || '',
+        status: task.status,
+        priority: task.priority,
+        dueDate: task.dueDate
+          ? new Date(task.dueDate).toISOString().split('T')[0]
+          : undefined,
+      })
+    } else {
+      reset({
+        title: '',
+        description: '',
+        status: 'pending',
+        priority: 'medium',
+        dueDate: undefined,
+      })
+    }
+  }, [open, task, reset])
+
+  return (
+    <TaskModal.Root open={open} onClose={onClose} sx={{
+    width: 700,
+    maxWidth: '70vw',
+  }}>
+      
+      <TaskModal.Header>
+        <Typography variant="h6">
+          {isEditMode ? 'Edit Task' : 'Create Task'}
+        </Typography>
+      </TaskModal.Header>
+
+    
+      <TaskModal.Body>
+        <FormProvider {...formHook}>
+          <FormGroup sx={{ gap: 2 }}>
+            <Box>
+              <Typography fontWeight={600} mb={0.5}>
+                Task Title
+              </Typography>
+              <Controller
+                name="title"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <TextField
+                    {...field}
+                    fullWidth
+                    error={!!fieldState.error}
+                    helperText={fieldState.error?.message}
+                    sx={{
+                      '& .MuiFormHelperText-root': {
+                        ml: 0,
+                      },
+                    }}
+                  />
+                )}
+              />
+            </Box>
+
+            <Box>
+              <Typography fontWeight={600} mb={0.5}>
+                Description{' '}
+                <Typography component="span" color="text.secondary">
+                  (optional)
+                </Typography>
+              </Typography>
+              <Controller
+                name="description"
+                control={control}
+                render={({ field }) => (
+                  <TextField {...field} fullWidth multiline rows={4} />
+                )}
+              />
+            </Box>
+
+            <Box display="grid" gridTemplateColumns="1fr 1fr" gap={2}>
+              <Controller
+                name="status"
+                control={control}
+                render={({ field }) => (
+                  <TextField {...field} select fullWidth slotProps={{
+                      select: {
+                        native: true,
+                      },
+                    }}>
+                    <option value="pending">To Do</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                  </TextField>
+                )}
+              />
+
+              <Controller
+                name="priority"
+                control={control}
+                render={({ field }) => (
+                  <TextField {...field} select fullWidth slotProps={{
+                      select: {
+                        native: true,
+                      },
+                    }}>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                  </TextField>
+                )}
+              />
+              <Controller
+                  name="dueDate"
+                  control={control}
+                  render={({ field }) => (
+                    <DatePicker
+                      value={field.value ? dayjs(field.value) : null}
+                      onChange={(date) =>
+                        field.onChange(date ? date.format('YYYY-MM-DD') : undefined)
+                      }
+                      slotProps={{
+                        textField: {
+                          fullWidth: true,
+                        },
+                      }}
+                    />
+                  )}
+                />
+
+              <Box />
+            </Box>
+
+          </FormGroup>
+        </FormProvider>
+      </TaskModal.Body>
+
+      <TaskModal.Actions>
+        <Button variant="outlined" onClick={onClose}>
+          Cancel
+        </Button>
+        <Button
+          variant="contained"
+          onClick={handleSubmit(handleFormSubmit)}
+        >
+          {task ? 'Save' : 'Create'}
+        </Button>   
+      </TaskModal.Actions>
+    </TaskModal.Root>
+  )
+}

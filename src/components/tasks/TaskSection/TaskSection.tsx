@@ -10,7 +10,7 @@ import {
 import useStyles from './TaskSection.style'
 import { TaskModalController } from '@/components/tasks'
 import { TaskDetailModal } from '@/components/tasks/TaskDetailModal'
-import { TaskEditModal } from '@/components/tasks/TaskEditModal'
+import { TaskFormModal } from '@/components/tasks/TaskFormModal'
 import { TaskDeleteModal } from '@/components/tasks/TaskDeleteModal'
 
 export const TaskSection = () => {
@@ -44,6 +44,7 @@ export const TaskSection = () => {
                 onStatusChange={setStatus}
                 priority={priority}
                 onPriorityChange={setPriority}
+                onCreate={modal.openCreate}
               />
             </Box>
 
@@ -75,11 +76,21 @@ export const TaskSection = () => {
               />
             )}
 
-            {modal.type === 'edit' && (
-              <TaskEditModal
+            {modal.type === 'form' && (
+              <TaskFormModal
                 open
                 task={modal.task}
                 onClose={modal.close}
+                onSubmit={(data) => {
+                  if (modal.task) {
+                    // EDIT
+                    console.log('update task', modal.task.id, data)
+                  } else {
+                    // CREATE
+                    console.log('create task', data)
+                  }
+                  modal.close()
+                }}
               />
             )}
 

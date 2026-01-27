@@ -1,7 +1,9 @@
 'use client'
 
-import { Dialog, DialogContent, Divider } from '@mui/material'
+import { Divider } from '@mui/material'
 import type { Task } from '@/types/task'
+
+import TaskModal from '@/components/tasks/TaskModal/TaskModal'
 
 import { TaskDetailHeader } from './TaskDetailHeader'
 import { TaskDetailMeta } from './TaskDetailMeta'
@@ -26,26 +28,30 @@ export const TaskDetailModal = ({
   if (!task) return null
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
-      <DialogContent sx={{ p: 3 }}>
+    <TaskModal.Root
+      open={open}
+      onClose={onClose}
+      sx={{ maxWidth: 900, width: '100%' }}
+    >
+      <TaskModal.Body sx={{ px: 3 }}>
         <TaskDetailHeader
           title={task.title}
           onEdit={() => onEdit?.(task)}
           onDelete={() => onDelete?.(task)}
         />
 
-        <Divider sx={{ my: 2 ,mx: -3 }} />
+        <Divider sx={{ my: 2, mx: -3 }} />
 
         <TaskDetailMeta task={task} />
 
-        <Divider sx={{ my: 3 , mx: -3}} />
+        <Divider sx={{ my: 3, mx: -3 }} />
 
         <TaskDetailDescription description={task.description} />
 
-        <Divider sx={{ my: 3 , mx: -3}} />
+        <Divider sx={{ my: 3, mx: -3 }} />
 
         <TaskDetailActivity createdAt={task.createdAt} />
-      </DialogContent>
-    </Dialog>
+      </TaskModal.Body>
+    </TaskModal.Root>
   )
 }

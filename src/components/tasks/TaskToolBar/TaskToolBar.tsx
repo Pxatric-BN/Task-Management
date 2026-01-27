@@ -20,6 +20,7 @@ interface Props {
   onStatusChange: (v: TaskStatus | 'all') => void
   priority: TaskPriority | 'all'
   onPriorityChange: (v: TaskPriority | 'all') => void
+  onCreate: () => void
 }
 
 export const TaskToolBar = ({
@@ -31,6 +32,7 @@ export const TaskToolBar = ({
   onStatusChange,
   priority,
   onPriorityChange,
+  onCreate,
 }: Props) => {
   return (
     <Box
@@ -97,9 +99,15 @@ export const TaskToolBar = ({
           </ToggleButton>
         </ToggleButtonGroup>
 
-        <Button variant="contained" startIcon={<AddIcon />}>
+       <Button
+          variant="contained"
+          startIcon={<AddIcon />}
+          onClick={onCreate}
+        >
           Add Task
         </Button>
+
+
       </Box>
     </Box>
   )

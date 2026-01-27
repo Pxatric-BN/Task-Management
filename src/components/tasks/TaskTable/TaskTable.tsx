@@ -72,7 +72,7 @@ export const TaskTable = ({ tasks, onSelect,onEdit,onDelete }: Props) => {
                     size="small"
                     variant="outlined"
                     color="inherit"
-                    sx={styles.actionButtonStyle}
+                    sx={styles.buttonEditStyle}
                     onClick={(e) => {
                       e.stopPropagation()
                       onEdit(task)
@@ -84,7 +84,7 @@ export const TaskTable = ({ tasks, onSelect,onEdit,onDelete }: Props) => {
                     size="small"
                     variant="outlined"
                     color="error"
-                    sx={styles.actionButtonStyle}
+                    sx={styles.buttonDeleteStyle}
                     onClick={(e) => {
                       e.stopPropagation()
                       onDelete(task)

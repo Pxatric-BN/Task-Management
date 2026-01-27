@@ -1,29 +1,60 @@
 'use client'
 
-import { Dialog, DialogTitle, DialogContent } from '@mui/material'
+import { Button, Typography } from '@mui/material'
+import TaskModal from '@/components/tasks/TaskModal/TaskModal'
 import type { Task } from '@/types/task'
-
+import useStyles from './TaskDeleteModal.style'
 interface Props {
   open: boolean
   task: Task | null
+  loading?: boolean
   onClose: () => void
+  onConfirm: () => void
 }
 
-export const TaskDeleteModal = ({ open, task, onClose }: Props) => {
+export const TaskDeleteModal = ({
+  open,
+  task,
+  loading,
+  onClose,
+  onConfirm,
+}: Props) => {
+  const styles = useStyles()
   if (!task) return null
-
+  
   return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-      maxWidth="sm"
-      fullWidth
-    >
-      <DialogTitle>Delete Task</DialogTitle>
+    <TaskModal.Root open={open} onClose={onClose}>
+     <TaskModal.Header onClose={onClose}>
+        <Typography sx={styles.headerStyle}>Delete Task</Typography>
+      </TaskModal.Header>
 
-      <DialogContent>
-        {/* deletecontent */}
-      </DialogContent>
-    </Dialog>
+      <TaskModal.Body>
+        <Typography>
+          Are you sure you want to delete the task &apos;{task.title}&apos;?
+        </Typography>
+         <Typography>
+          This action cannot be undone.
+        </Typography>
+      </TaskModal.Body>
+
+      <TaskModal.Actions >
+        <Button
+          onClick={onClose}
+          variant="outlined"
+          sx={styles.cancleButtonStyle}
+        >
+          Cancel
+        </Button>
+
+        <Button
+          color="error"
+          variant="contained"
+          onClick={onConfirm}
+          disabled={loading}
+        >
+          Delete
+        </Button>
+      </TaskModal.Actions>
+    </TaskModal.Root>
   )
 }

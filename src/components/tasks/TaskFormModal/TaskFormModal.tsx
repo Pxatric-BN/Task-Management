@@ -11,7 +11,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-
+import useStyles from './TaskFormModal.style'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import TaskModal from '@/components/tasks/TaskModal/TaskModal'
@@ -48,7 +48,7 @@ export const TaskFormModal = ({
     description: '',
     status: 'pending',
     priority: 'medium',
-    dueDate: undefined,
+    dueDate: '',
   },
 })
 
@@ -66,7 +66,7 @@ export const TaskFormModal = ({
 }
 
   const { control, handleSubmit, reset } = formHook
-
+  const styles = useStyles()
   useEffect(() => {
     if (!open) return
 
@@ -97,7 +97,7 @@ export const TaskFormModal = ({
     maxWidth: '70vw',
   }}>
       
-      <TaskModal.Header>
+      <TaskModal.Header onClose={onClose}>
         <Typography variant="h6">
           {isEditMode ? 'Edit Task' : 'Create Task'}
         </Typography>
@@ -106,9 +106,9 @@ export const TaskFormModal = ({
     
       <TaskModal.Body>
         <FormProvider {...formHook}>
-          <FormGroup sx={{ gap: 2 }}>
+          <FormGroup sx={styles.formGroupStyle}>
             <Box>
-              <Typography fontWeight={600} mb={0.5}>
+              <Typography sx={styles.textStyle}>
                 Task Title
               </Typography>
               <Controller
@@ -120,18 +120,15 @@ export const TaskFormModal = ({
                     fullWidth
                     error={!!fieldState.error}
                     helperText={fieldState.error?.message}
-                    sx={{
-                      '& .MuiFormHelperText-root': {
-                        ml: 0,
-                      },
-                    }}
+                    sx={styles.helperTextStyle}
+                    placeholder='Enter task title...'
                   />
                 )}
               />
             </Box>
 
             <Box>
-              <Typography fontWeight={600} mb={0.5}>
+              <Typography sx={styles.textStyle}>
                 Description{' '}
                 <Typography component="span" color="text.secondary">
                   (optional)
@@ -141,60 +138,81 @@ export const TaskFormModal = ({
                 name="description"
                 control={control}
                 render={({ field }) => (
-                  <TextField {...field} fullWidth multiline rows={4} />
+                  <TextField {...field} fullWidth multiline rows={4} 
+                  placeholder='Enter description...'
+                  />
                 )}
               />
             </Box>
-
             <Box display="grid" gridTemplateColumns="1fr 1fr" gap={2}>
-              <Controller
-                name="status"
-                control={control}
-                render={({ field }) => (
-                  <TextField {...field} select fullWidth slotProps={{
-                      select: {
-                        native: true,
-                      },
-                    }}>
-                    <option value="pending">To Do</option>
-                    <option value="in-progress">In Progress</option>
-                    <option value="completed">Completed</option>
-                  </TextField>
-                )}
-              />
+              {/* Status */}
+              <Box>
+                <Typography sx={styles.textStyle}>Status</Typography>
+                <Controller
+                  name="status"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      select
+                      fullWidth
+                      slotProps={{
+                        select: { native: true },
+                      }}
+                    >
+                      <option value="pending">To Do</option>
+                      <option value="in-progress">In Progress</option>
+                      <option value="completed">Completed</option>
+                    </TextField>
+                  )}
+                />
+              </Box>
 
-              <Controller
-                name="priority"
-                control={control}
-                render={({ field }) => (
-                  <TextField {...field} select fullWidth slotProps={{
-                      select: {
-                        native: true,
-                      },
-                    }}>
-                    <option value="low">Low</option>
-                    <option value="medium">Medium</option>
-                    <option value="high">High</option>
-                  </TextField>
-                )}
-              />
-              <Controller
+              {/* Priority */}
+              <Box>
+                <Typography sx={styles.textStyle}>Priority</Typography>
+                <Controller
+                  name="priority"
+                  control={control}
+                  render={({ field }) => (
+                    <TextField
+                      {...field}
+                      select
+                      fullWidth
+                      slotProps={{
+                        select: { native: true },
+                      }}
+                    >
+                      <option value="low">Low</option>
+                      <option value="medium">Medium</option>
+                      <option value="high">High</option>
+                    </TextField>
+                  )}
+                />
+              </Box>
+
+              <Box>
+                <Typography sx={styles.textStyle}>Due Date</Typography>
+                <Controller
                   name="dueDate"
                   control={control}
                   render={({ field }) => (
-                    <DatePicker
-                      value={field.value ? dayjs(field.value) : null}
-                      onChange={(date) =>
-                        field.onChange(date ? date.format('YYYY-MM-DD') : undefined)
-                      }
-                      slotProps={{
-                        textField: {
-                          fullWidth: true,
-                        },
-                      }}
-                    />
+                  <DatePicker
+                    format="DD/MM/YYYY"
+                    value={field.value ? dayjs(field.value) : null}
+                    onChange={(date) =>
+                      field.onChange(date ? date.format('YYYY-MM-DD') : undefined)
+                    }
+                    slotProps={{
+                      textField: {
+                        fullWidth: true,
+                      },
+                    }}
+                  />
                   )}
                 />
+
+              </Box>
 
               <Box />
             </Box>
@@ -204,7 +222,11 @@ export const TaskFormModal = ({
       </TaskModal.Body>
 
       <TaskModal.Actions>
-        <Button variant="outlined" onClick={onClose}>
+        <Button 
+        variant="outlined" 
+        onClick={onClose}
+        sx={styles.cancleButtonStyle}
+        >
           Cancel
         </Button>
         <Button

@@ -65,7 +65,7 @@ export const TaskCardList = ({ tasks, onSelect,onEdit,onDelete }: Props) => {
             }} 
               variant="outlined" 
               color="inherit" 
-              sx={styles.buttonStyle}>
+              sx={styles.buttonEditStyle}>
               Edit
             </Button>
             <Button size="small" 
@@ -75,7 +75,7 @@ export const TaskCardList = ({ tasks, onSelect,onEdit,onDelete }: Props) => {
             }} 
             variant="outlined" 
             color="error" 
-            sx={styles.buttonStyle}>
+            sx={styles.buttonDeleteStyle}>
               Delete
             </Button>
           </Box>

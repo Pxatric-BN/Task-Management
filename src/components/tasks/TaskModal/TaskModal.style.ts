@@ -23,17 +23,13 @@ const useStyles = () => {
 
   const headerWrapperStyle: SxProps = {
     backgroundColor: 'grey.100',
-    borderRadius: '8px 8px 0 0',
     mx: -3,        
     mt: -3,
-    mb: 2,
-    px: 3,
   }
 
   const headerContentStyle: SxProps = {
     py: 2,
-    minHeight: 48,
-    fontWeight: 600,
+    px: 3,
   }
 
   return {

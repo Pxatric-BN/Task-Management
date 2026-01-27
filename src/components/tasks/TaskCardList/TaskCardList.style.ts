@@ -44,8 +44,21 @@ const useStyles = () => {
   const dividerStyle: SxProps<Theme> = {
     my: 1,
   }
-  const buttonStyle: SxProps<Theme> = {
-    fontWeight: 600,
+  const buttonEditStyle: SxProps<Theme> = {
+    color: 'text.primary',     
+    borderColor: 'grey.400',  
+    '&:hover': {
+      borderColor: 'grey.600',
+      backgroundColor: 'grey.100',
+    },
+  }
+  const buttonDeleteStyle: SxProps<Theme> = {
+    color: 'text.danger',     
+    borderColor: 'grey.400',  
+    '&:hover': {
+      borderColor: 'grey.600',
+      backgroundColor: 'grey.100',
+    },
   }
   const footerStyle: SxProps<Theme> = {
     display: 'flex',
@@ -70,7 +83,8 @@ const useStyles = () => {
     footerStyle,
     titleStyle,
     dividerStyle,
-    buttonStyle,
+    buttonEditStyle,
+    buttonDeleteStyle,
     dateStyle,
     descriptionStyle,
   }

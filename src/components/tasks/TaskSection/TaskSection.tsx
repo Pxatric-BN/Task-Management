@@ -12,12 +12,24 @@ import { TaskModalController } from '@/components/tasks'
 import { TaskDetailModal } from '@/components/tasks/TaskDetailModal'
 import { TaskFormModal } from '@/components/tasks/TaskFormModal'
 import { TaskDeleteModal } from '@/components/tasks/TaskDeleteModal'
+import { useDeleteTask } from '@/hooks'
+
 
 export const TaskSection = () => {
   const styles = useStyles()
-
-  
   const modal = TaskModalController()
+  const deleteTaskMutation = useDeleteTask()
+
+  const handleConfirmDelete = () => {
+    if (!modal.task) return
+
+    deleteTaskMutation.mutate(modal.task.id, {
+      onSuccess: () => {
+        modal.close()
+      },
+    })
+  }
+
 
   return (
     <Box sx={styles.taskSectionStyle}>
@@ -83,10 +95,8 @@ export const TaskSection = () => {
                 onClose={modal.close}
                 onSubmit={(data) => {
                   if (modal.task) {
-                    // EDIT
                     console.log('update task', modal.task.id, data)
                   } else {
-                    // CREATE
                     console.log('create task', data)
                   }
                   modal.close()
@@ -98,9 +108,12 @@ export const TaskSection = () => {
               <TaskDeleteModal
                 open
                 task={modal.task}
+                loading={deleteTaskMutation.isPending}
                 onClose={modal.close}
+                onConfirm={handleConfirmDelete} 
               />
             )}
+
 
           </>
         )}

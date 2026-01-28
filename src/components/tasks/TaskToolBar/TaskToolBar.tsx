@@ -64,7 +64,7 @@ export const TaskToolBar = ({
         >
           <MenuItem value="all">All Status</MenuItem>
           <MenuItem value="pending">Pending</MenuItem>
-          <MenuItem value="in-progress">In Progress</MenuItem>
+          <MenuItem value="in_progress">In Progress</MenuItem>
           <MenuItem value="completed">Completed</MenuItem>
         </TextField>
          <TextField

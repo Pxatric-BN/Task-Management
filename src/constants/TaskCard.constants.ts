@@ -3,7 +3,7 @@ import type { TaskStatus, TaskPriority } from '@/types/task'
 
 export const STATUS_COLOR_MAP: Record<TaskStatus, ChipProps['color']> = {
   pending: 'success',
-  'in-progress': 'success',
+  'in_progress': 'success',
   completed: 'primary',
 }
 

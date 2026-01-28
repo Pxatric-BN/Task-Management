@@ -17,12 +17,12 @@ export type GetTasksParams = {
 }
 
 
-export const getTasks = async ( params?: GetTasksParams ): Promise<Task[]> => {
-  const { data } = await publicAxios.get<Task[]>('/tasks', {
-    params,
-  })
-  return data
+export const getTasks = async (params?: GetTasksParams) => {
+  const res = await publicAxios.get('/tasks', { params })
+  console.log('API DATA 👉', res.data, typeof res.data)
+  return res.data
 }
+
 
 export const createTask = async (
   payload: TaskPayload,

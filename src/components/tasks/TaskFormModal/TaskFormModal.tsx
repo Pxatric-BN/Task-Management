@@ -161,7 +161,7 @@ export const TaskFormModal = ({
                       }}
                     >
                       <option value="pending">To Do</option>
-                      <option value="in-progress">In Progress</option>
+                      <option value="in_progress">In Progress</option>
                       <option value="completed">Completed</option>
                     </TextField>
                   )}

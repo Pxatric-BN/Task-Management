@@ -52,8 +52,8 @@ export const TaskFormModal = ({
   },
 })
 
-  const createTaskMutation = useCreateTask()
-  const updateTaskMutation = useUpdateTask()
+  const createTaskMutation = useCreateTask(onClose)
+  const updateTaskMutation = useUpdateTask(onClose)
   const handleFormSubmit = (data: TaskFormFields) => {
   if (task) {
     updateTaskMutation.mutate({

@@ -43,7 +43,7 @@ export const updateTask = async (
   payload: TaskPayload,
 ): Promise<Task> => {
   try {
-    const { data } = await publicAxios.put<Task>(
+    const { data } = await publicAxios.patch<Task>(
       `/tasks/${id}`,
       payload,
     )

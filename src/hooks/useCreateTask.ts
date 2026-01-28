@@ -1,11 +1,17 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createTask } from '@/services/task.service'
 import type { Task } from '@/types/task'
 import type { TaskPayload } from '@/services/task.service'
 
-const useCreateTask = () => {
+const useCreateTask = (onSuccessCallback?: () => void) => {
+  const queryClient = useQueryClient()
+
   return useMutation<Task, unknown, TaskPayload>({
     mutationFn: createTask,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] })
+      onSuccessCallback?.()
+    },
   })
 }
 

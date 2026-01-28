@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { updateTask } from '@/services/task.service'
 import type { Task } from '@/types/task'
 import type { TaskPayload } from '@/services/task.service'
@@ -8,9 +8,15 @@ type UpdateTaskParams = {
   data: TaskPayload
 }
 
-const useUpdateTask = () => {
+const useUpdateTask = (onSuccess?: () => void) => {
+  const queryClient = useQueryClient()
+
   return useMutation<Task, unknown, UpdateTaskParams>({
     mutationFn: ({ id, data }) => updateTask(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] })
+      onSuccess?.()
+    },
   })
 }
 

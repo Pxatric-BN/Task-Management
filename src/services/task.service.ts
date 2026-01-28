@@ -10,17 +10,18 @@ export type TaskPayload = {
   dueDate?: string
 }
 
+export type GetTasksParams = {
+  search?: string
+  status?: TaskStatus
+  priority?: TaskPriority
+}
 
-export const getTasks = async (): Promise<Task[]> => {
-  try {
-    const { data } = await publicAxios.get<Task[]>('/tasks')
-    return data
-  } catch (error) {
-    if (isAxiosError(error)) {
-      throw error.response?.data ?? error
-    }
-    throw error
-  }
+
+export const getTasks = async ( params?: GetTasksParams ): Promise<Task[]> => {
+  const { data } = await publicAxios.get<Task[]>('/tasks', {
+    params,
+  })
+  return data
 }
 
 export const createTask = async (

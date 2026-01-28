@@ -1,13 +1,11 @@
-import { useQuery, type UseQueryOptions } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { getTasks } from '@/services/task.service'
-import type { Task } from '@/types/task'
+import type { GetTasksParams } from '@/services/task.service'
 
-export const useGetTasks = (
-  options?: UseQueryOptions<Task[], Error>
-) => {
-  return useQuery<Task[], Error>({
-    queryKey: ['tasks'],
-    queryFn: getTasks,
-    ...options,
+export const useGetTasks = (params: GetTasksParams) => {
+  return useQuery({
+    queryKey: ['tasks', params],
+    queryFn: () => getTasks(params),
+    placeholderData: (previousData) => previousData,
   })
 }

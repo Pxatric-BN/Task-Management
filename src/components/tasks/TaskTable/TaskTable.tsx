@@ -1,3 +1,5 @@
+'use client'
+
 import type { Task } from '@/types/task'
 import {
   Table,
@@ -12,7 +14,7 @@ import {
   Stack,
 } from '@mui/material'
 
-import useStyles  from './TaskTable.style'
+import useStyles from './TaskTable.style'
 import { STATUS_COLOR_MAP, PRIORITY_COLOR_MAP } from '@/constants'
 import { formatDate } from '@/utils/date'
 
@@ -23,51 +25,39 @@ interface Props {
   onDelete: (task: Task) => void
 }
 
-export const TaskTable = ({ tasks, onSelect,onEdit,onDelete }: Props) => {
+export const TaskTable = ({ tasks, onSelect, onEdit, onDelete }: Props) => {
   const styles = useStyles()
+
   return (
     <TableContainer component={Paper} sx={styles.containerStyle}>
-      <Table>
+      <Table stickyHeader sx={styles.tableStyle}>
         <TableHead>
-        <TableRow sx={styles.headRowStyle}>
+          <TableRow sx={styles.headRowStyle}>
             <TableCell>Task</TableCell>
             <TableCell>Status</TableCell>
             <TableCell>Priority</TableCell>
             <TableCell>Due Date</TableCell>
-            <TableCell>Actions</TableCell>
-        </TableRow>
+            <TableCell align="right">Actions</TableCell>
+          </TableRow>
         </TableHead>
-
 
         <TableBody>
           {tasks.map((task) => (
-            <TableRow key={task.id} hover onClick={() => onSelect(task)}>
-              <TableCell sx={styles.cellStyle}>
-                {task.title}
+            <TableRow key={task.id} hover sx={styles.rowStyle} onClick={() => onSelect(task)}>
+              <TableCell sx={styles.cellStyle}>{task.title}</TableCell>
+
+              <TableCell>
+                <Chip size="small" label={task.status} color={STATUS_COLOR_MAP[task.status]} />
               </TableCell>
 
               <TableCell>
-                <Chip
-                  size="small"
-                  label={task.status}
-                  color={STATUS_COLOR_MAP[task.status]}
-                />
+                <Chip size="small" label={task.priority} color={PRIORITY_COLOR_MAP[task.priority]} />
               </TableCell>
 
-              <TableCell>
-                <Chip
-                  size="small"
-                  label={task.priority}
-                  color={PRIORITY_COLOR_MAP[task.priority]}
-                />
-              </TableCell>
+              <TableCell sx={styles.dateCellStyle}>{formatDate(task.createdAt)}</TableCell>
 
-              <TableCell>
-                {formatDate(task.createdAt)}
-              </TableCell>
-
-              <TableCell>
-                <Stack direction="row" spacing={1}>
+              <TableCell align="right">
+                <Stack direction="row" spacing={1} justifyContent="flex-end">
                   <Button
                     size="small"
                     variant="outlined"
@@ -76,10 +66,11 @@ export const TaskTable = ({ tasks, onSelect,onEdit,onDelete }: Props) => {
                     onClick={(e) => {
                       e.stopPropagation()
                       onEdit(task)
-                    }} 
+                    }}
                   >
                     Edit
                   </Button>
+
                   <Button
                     size="small"
                     variant="outlined"
@@ -88,7 +79,7 @@ export const TaskTable = ({ tasks, onSelect,onEdit,onDelete }: Props) => {
                     onClick={(e) => {
                       e.stopPropagation()
                       onDelete(task)
-                    }} 
+                    }}
                   >
                     Delete
                   </Button>

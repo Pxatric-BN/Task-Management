@@ -1,92 +1,107 @@
-import type { SxProps, Theme } from '@mui/material'
+import type { SxProps } from '@mui/material'
 
 const useStyles = () => {
-  const gridStyle: SxProps<Theme> = {
+  const gridStyle: SxProps = {
     display: 'grid',
+    gap: 2,
     gridTemplateColumns: {
       xs: '1fr',
-      md: 'repeat(2, 1fr)',
-      xl: 'repeat(3, 1fr)',
+      sm: 'repeat(2, minmax(0, 1fr))',
+      md: 'repeat(3, minmax(0, 1fr))',
+      lg: 'repeat(4, minmax(0, 1fr))',
     },
-    gap: 3,
+    alignItems: 'stretch',
   }
 
-  const cardStyle: SxProps<Theme> = {
-    p: 2,
-    borderRadius: 2,
-    border: '1px solid',
-    borderColor: 'grey.200',
-    bgcolor: 'background.paper',
-    boxShadow: 1,
-    transition: 'all 0.2s ease',
-    '&:hover': {
-      boxShadow: 3,
-    },
-  }
-
-  const headerStyle: SxProps<Theme> = {
+  const cardStyle: SxProps = {
     display: 'flex',
-    justifyContent: 'space-between',
+    flexDirection: 'column',
+    minWidth: 0,
+    borderRadius: 2,
+    border: '1px solid #E5E7EB',
+    backgroundColor: '#FFFFFF',
+    p: 2,
+    cursor: 'pointer',
+    transition: 'transform 120ms ease, box-shadow 120ms ease',
+    '&:hover': {
+      transform: 'translateY(-1px)',
+      boxShadow: 2,
+    },
+  }
+
+  const headerStyle: SxProps = {
+    display: 'flex',
     alignItems: 'flex-start',
-    mb: 2,
+    justifyContent: 'space-between',
+    gap: 1,
   }
 
-  const titleStyle: SxProps<Theme> = {
-    fontWeight: 600,
+  const titleStyle: SxProps = {
+    fontWeight: 700,
+    fontSize: 16,
+    lineHeight: 1.3,
+    display: '-webkit-box',
+    WebkitLineClamp: 2,
+    WebkitBoxOrient: 'vertical',
+    overflow: 'hidden',
+    wordBreak: 'break-word',
   }
 
-  const badgeRowStyle: SxProps<Theme> = {
+  const dividerStyle: SxProps = { my: 1.25 }
+
+  const badgeRowStyle: SxProps = {
     display: 'flex',
     alignItems: 'center',
     gap: 1,
+    flexWrap: 'wrap', // ✅ มือถือให้ตัดบรรทัดได้
+  }
+
+  const dateStyle: SxProps = {
+    marginLeft: { xs: 0, sm: 'auto' }, // ✅ มือถือไม่ต้องดันขวา
+    whiteSpace: 'nowrap',
+  }
+
+  const descriptionStyle: SxProps = {
     mt: 1,
+    color: 'text.secondary',
+    display: '-webkit-box',
+    WebkitLineClamp: { xs: 2, sm: 3 },
+    WebkitBoxOrient: 'vertical',
+    overflow: 'hidden',
+    wordBreak: 'break-word',
   }
-  const dividerStyle: SxProps<Theme> = {
-    my: 1,
-  }
-  const buttonEditStyle: SxProps<Theme> = {
-    color: 'text.primary',     
-    borderColor: 'grey.400',  
-    '&:hover': {
-      borderColor: 'grey.600',
-      backgroundColor: 'grey.100',
-    },
-  }
-  const buttonDeleteStyle: SxProps<Theme> = {
-    color: 'text.danger',     
-    borderColor: 'grey.400',  
-    '&:hover': {
-      borderColor: 'grey.600',
-      backgroundColor: 'grey.100',
-    },
-  }
-  const footerStyle: SxProps<Theme> = {
+
+  const footerStyle: SxProps = {
+    mt: 'auto',
+    pt: 1.5,
     display: 'flex',
-    justifyContent: 'flex-end',
     gap: 1,
-    mt: 2,
+    justifyContent: 'flex-end',
+    flexWrap: 'wrap',
   }
 
-  const dateStyle: SxProps<Theme> = {
-    marginLeft: 'auto',
+  const buttonEditStyle: SxProps = {
+    minWidth: { xs: 'calc(50% - 4px)', sm: 'auto' }, // ✅ มือถือปุ่มครึ่งจอ
+    flex: { xs: 1, sm: 'unset' },
   }
 
-  const descriptionStyle: SxProps<Theme> = {
-    mt: 1,
+  const buttonDeleteStyle: SxProps = {
+    minWidth: { xs: 'calc(50% - 4px)', sm: 'auto' },
+    flex: { xs: 1, sm: 'unset' },
   }
 
   return {
     gridStyle,
     cardStyle,
     headerStyle,
-    badgeRowStyle,
-    footerStyle,
     titleStyle,
     dividerStyle,
-    buttonEditStyle,
-    buttonDeleteStyle,
+    badgeRowStyle,
     dateStyle,
     descriptionStyle,
+    footerStyle,
+    buttonEditStyle,
+    buttonDeleteStyle,
   }
 }
 

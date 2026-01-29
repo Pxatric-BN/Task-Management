@@ -23,7 +23,14 @@ export const TaskDeleteModal = ({
   if (!task) return null
   
   return (
-    <TaskModal.Root open={open} onClose={onClose}>
+   <TaskModal.Root
+      open={open}
+      onClose={onClose}
+      sx={{
+        width: { xs: 'calc(100vw - 56px)', sm: 560, md: 700 },
+        maxWidth: '900px',
+      }}
+    >
      <TaskModal.Header onClose={onClose}>
         <Typography sx={styles.headerStyle}>Delete Task</Typography>
       </TaskModal.Header>

@@ -1,58 +1,45 @@
-import type { SxProps, Theme } from '@mui/material'
+import type { SxProps } from '@mui/material'
 
 const useStyles = () => {
-  const containerStyle: SxProps<Theme> = {
+  const containerStyle: SxProps = {
+    width: '100%',
+    overflowX: 'auto',      // ✅ เลื่อนได้แนวนอนบนมือถือ
     borderRadius: 2,
-    border: '1px solid',
-    borderColor: 'grey.200',
-    bgcolor: 'background.paper',
-    boxShadow: 1,
+    boxShadow: 'none',
+    border: '1px solid #E5E7EB',
   }
 
-  const tableStyle: SxProps<Theme> = {
-    minWidth: 650,
+  const tableStyle: SxProps = {
+    minWidth: 780,          // ✅ กันคอลัมน์อัดกันจนพัง (ปรับได้)
   }
 
-  const headRowStyle: SxProps<Theme> = {
-    backgroundColor: 'grey.50',
+  const headRowStyle: SxProps = {
     '& th': {
-      fontWeight: 600,
-      color: 'text.secondary',
+      fontWeight: 700,
+      whiteSpace: 'nowrap',
+      backgroundColor: '#FFFFFF',
     },
   }
 
-
-  const rowStyle: SxProps<Theme> = {
-    '&:hover': {
-      backgroundColor: 'action.hover',
-    },
+  const rowStyle: SxProps = {
+    cursor: 'pointer',
+    '& td': { verticalAlign: 'middle' },
   }
 
-  const cellStyle: SxProps<Theme> = {
-    py: 2,
+  const cellStyle: SxProps = {
+    minWidth: 260,
+    maxWidth: 420,
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis', // ✅ title ยาวไม่ดันตารางพัง
   }
 
-  const actionStyle: SxProps<Theme> = {
-    display: 'flex',
-    gap: 1,
+  const dateCellStyle: SxProps = {
+    whiteSpace: 'nowrap',
   }
 
-  const buttonEditStyle: SxProps<Theme> = {
-    color: 'text.primary',     
-    borderColor: 'grey.400',  
-    '&:hover': {
-      borderColor: 'grey.600',
-      backgroundColor: 'grey.100',
-    },
-  }
-  const buttonDeleteStyle: SxProps<Theme> = {
-    color: 'text.danger',     
-    borderColor: 'grey.400',  
-    '&:hover': {
-      borderColor: 'grey.600',
-      backgroundColor: 'grey.100',
-    },
-  }
+  const buttonEditStyle: SxProps = { whiteSpace: 'nowrap' }
+  const buttonDeleteStyle: SxProps = { whiteSpace: 'nowrap' }
 
   return {
     containerStyle,
@@ -60,9 +47,9 @@ const useStyles = () => {
     headRowStyle,
     rowStyle,
     cellStyle,
-    actionStyle,
+    dateCellStyle,
     buttonEditStyle,
-    buttonDeleteStyle
+    buttonDeleteStyle,
   }
 }
 

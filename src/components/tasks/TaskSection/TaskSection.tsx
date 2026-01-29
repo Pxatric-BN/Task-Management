@@ -14,22 +14,21 @@ import { TaskFormModal } from '@/components/tasks/TaskFormModal'
 import { TaskDeleteModal } from '@/components/tasks/TaskDeleteModal'
 import { useDeleteTask } from '@/hooks'
 
+type TaskSectionProps = {
+  isMobile?: boolean
+}
 
-export const TaskSection = () => {
-  const styles = useStyles()
+export const TaskSection = ({ isMobile }: TaskSectionProps) => {
+  const styles = useStyles({ isMobile })
   const modal = TaskModalController()
   const deleteTaskMutation = useDeleteTask()
 
   const handleConfirmDelete = () => {
     if (!modal.task) return
-
     deleteTaskMutation.mutate(modal.task.id, {
-      onSuccess: () => {
-        modal.close()
-      },
+      onSuccess: () => modal.close(),
     })
   }
-
 
   return (
     <Box sx={styles.taskSectionStyle}>
@@ -94,11 +93,8 @@ export const TaskSection = () => {
                 task={modal.task}
                 onClose={modal.close}
                 onSubmit={(data) => {
-                  if (modal.task) {
-                    console.log('update task', modal.task.id, data)
-                  } else {
-                    console.log('create task', data)
-                  }
+                  if (modal.task) console.log('update task', modal.task.id, data)
+                  else console.log('create task', data)
                   modal.close()
                 }}
               />
@@ -110,11 +106,9 @@ export const TaskSection = () => {
                 task={modal.task}
                 loading={deleteTaskMutation.isPending}
                 onClose={modal.close}
-                onConfirm={handleConfirmDelete} 
+                onConfirm={handleConfirmDelete}
               />
             )}
-
-
           </>
         )}
       </TaskController>

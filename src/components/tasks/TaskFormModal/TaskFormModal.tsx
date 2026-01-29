@@ -92,10 +92,15 @@ export const TaskFormModal = ({
   }, [open, task, reset])
 
   return (
-    <TaskModal.Root open={open} onClose={onClose} sx={{
-    width: 700,
-    maxWidth: '70vw',
-  }}>
+   <TaskModal.Root
+      open={open}
+      onClose={onClose}
+      sx={{
+        width: { xs: 'calc(100vw - 24px)', sm: 560, md: 700 },
+        maxWidth: '900px',
+      }}
+    >
+
       
       <TaskModal.Header onClose={onClose}>
         <Typography variant="h6">
@@ -144,7 +149,14 @@ export const TaskFormModal = ({
                 )}
               />
             </Box>
-            <Box display="grid" gridTemplateColumns="1fr 1fr" gap={2}>
+           <Box
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
+                gap: 2,
+              }}
+            >
+
               {/* Status */}
               <Box>
                 <Typography sx={styles.textStyle}>Status</Typography>
@@ -214,7 +226,8 @@ export const TaskFormModal = ({
 
               </Box>
 
-              <Box />
+              <Box sx={{ display: { xs: 'none', sm: 'block' } }} />
+
             </Box>
 
           </FormGroup>
@@ -222,20 +235,25 @@ export const TaskFormModal = ({
       </TaskModal.Body>
 
       <TaskModal.Actions>
-        <Button 
-        variant="outlined" 
-        onClick={onClose}
-        sx={styles.cancleButtonStyle}
+        <Button
+          variant="outlined"
+          onClick={onClose}
+          fullWidth
+          sx={{ ...styles.cancleButtonStyle, width: { xs: '100%', sm: 'auto' } }}
         >
           Cancel
         </Button>
+
         <Button
           variant="contained"
           onClick={handleSubmit(handleFormSubmit)}
+          fullWidth
+          sx={{ width: { xs: '100%', sm: 'auto' } }}
         >
           {task ? 'Save' : 'Create'}
-        </Button>   
+        </Button>
       </TaskModal.Actions>
+
     </TaskModal.Root>
   )
 }

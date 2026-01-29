@@ -1,13 +1,8 @@
 const useStyles = () => ({
   root: {
-    width: '100%',
-    height: '100vh',
-    display: 'flex',
-    flexDirection: 'column',
-    bgcolor: '#fff',
-    borderRight: '1px solid #E5E7EB',
-    gridColumn: '1',
-    gridRow: '1 / span 2',
+     height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
    
   },
 

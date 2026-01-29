@@ -34,11 +34,14 @@ function TaskModalRoot({
   return (
     <Modal open={open} onClose={onClose}>
       <Box sx={{ ...styles.boxStyle, ...sx }}>
-        <Stack gap={gap}>{children}</Stack>
+        <Stack gap={gap} sx={styles.stackStyle}>
+          {children}
+        </Stack>
       </Box>
     </Modal>
   )
 }
+
 
 interface TaskModalHeaderProps {
   children: ReactNode
@@ -92,13 +95,13 @@ function TaskModalActions({
   justifyContent = 'flex-end',
 }: TaskModalActionsProps) {
   return (
-    <Box sx={{ mx: -3, mb: -3 }}>
+    <Box sx={{ mx: { xs: -2, sm: -3 }, mb: { xs: -2, sm: -3 } }}>
       <Divider />
 
-      <Box sx={{ px: 3, py: 2 }}>
+      <Box sx={{ px: { xs: 2, sm: 3 }, py: 2 }}>
         <Stack
-          direction="row"
-          gap={2}
+          direction={{ xs: 'column', sm: 'row' }}
+          gap={1.5}
           justifyContent={justifyContent}
         >
           {children}
@@ -107,6 +110,7 @@ function TaskModalActions({
     </Box>
   )
 }
+
 
 const TaskModal = {
   Root: TaskModalRoot,

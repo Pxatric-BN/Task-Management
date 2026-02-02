@@ -1,8 +1,8 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import type { Task, TaskStatus, TaskPriority } from '@/types/task'
-import { useGetTasks } from '@/hooks/'
+import { useGetTasks, useDebounce } from '@/hooks/'
 
 interface TaskControllerValue {
   tasks: Task[]
@@ -22,35 +22,24 @@ interface Props {
 }
 
 export const TaskController = ({ children }: Props) => {
-  const { data: tasks = [], isLoading, error } = useGetTasks()
-
   const [view, setView] = useState<'card' | 'table'>('card')
   const [search, setSearch] = useState('')
   const [status, setStatus] = useState<TaskStatus | 'all'>('all')
   const [priority, setPriority] = useState<TaskPriority | 'all'>('all')
 
-  const filteredTasks = useMemo(() => {
-  return tasks.filter((task) => {
-    const matchSearch = task.title
-      .toLowerCase()
-      .includes(search.toLowerCase())
+  const debouncedSearch = useDebounce(search, 500)
 
-    const matchStatus =
-      status === 'all' || task.status === status
-    
-    const matchPriority =
-      priority === 'all' || task.priority === priority
-
-    return matchSearch && matchStatus && matchPriority
+  const { data: tasks = [], isLoading, error } = useGetTasks({
+    search: debouncedSearch || undefined,
+    status: status === 'all' ? undefined : status,
+    priority: priority === 'all' ? undefined : priority,
   })
-}, [tasks, search, status, priority])
-
 
   if (isLoading) return <div>Loading...</div>
   if (error) return <div>Error</div>
 
   return children({
-    tasks: filteredTasks,
+    tasks,
     view,
     search,
     status,
@@ -61,3 +50,4 @@ export const TaskController = ({ children }: Props) => {
     setPriority,
   })
 }
+

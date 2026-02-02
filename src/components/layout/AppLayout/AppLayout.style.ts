@@ -1,35 +1,19 @@
-import type { SxProps } from '@mui/material';
+import type { SxProps } from '@mui/material'
 
-const useStyles = () => {
+type Params = {
+  isMobile?: boolean
+}
+
+const useStyles = ({ isMobile }: Params = {}) => {
   const layoutStyle: SxProps = {
+    minHeight: '100vh',
     display: 'grid',
-    gridTemplateColumns: '240px 1fr',
+    gridTemplateColumns: isMobile ? '1fr' : '280px 1fr',
     gridTemplateRows: '64px 1fr',
-    height: '100vh',
-  };
+    backgroundColor: '#F9FAFB',
+  }
 
-  const navStyle: SxProps = {
-    gridColumn: '1 / 2',
-    gridRow: '1 / 3',
-    borderRight: '1px solid #E5E7EB',
-  };
+  return { layoutStyle }
+}
 
-  const headerStyle: SxProps = {
-    gridColumn: '2 / 3',
-    gridRow: '1 / 2',
-    borderBottom: '1px solid #E5E7EB',
-    display: 'flex',
-    alignItems: 'center',
-    bgcolor: '#fff',
-  };
-
-  const contentStyle: SxProps = {
-    gridColumn: '2 / 3',
-    gridRow: '2 / 3',
-    overflow: 'auto',
-  };
-
-  return { layoutStyle, navStyle, headerStyle, contentStyle };
-};
-
-export default useStyles;
+export default useStyles

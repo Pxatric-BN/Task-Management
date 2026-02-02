@@ -1,0 +1,1 @@
+export { TaskDeleteModal } from './TaskDeleteModal'

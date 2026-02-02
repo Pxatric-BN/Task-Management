@@ -9,9 +9,11 @@ import { formatDate } from '@/utils'
 interface Props {
   tasks: Task[]
   onSelect: (task: Task) => void
+  onEdit: (task: Task) => void
+  onDelete: (task: Task) => void
 }
 
-export const TaskCardList = ({ tasks, onSelect }: Props) => {
+export const TaskCardList = ({ tasks, onSelect,onEdit,onDelete }: Props) => {
   const styles = useStyles()
 
   return (
@@ -59,19 +61,21 @@ export const TaskCardList = ({ tasks, onSelect }: Props) => {
           <Box sx={styles.footerStyle}>
             <Button size="small" onClick={(e) => {
               e.stopPropagation() 
+              onEdit(task)
             }} 
               variant="outlined" 
               color="inherit" 
-              sx={styles.buttonStyle}>
+              sx={styles.buttonEditStyle}>
               Edit
             </Button>
             <Button size="small" 
             onClick={(e) => {
               e.stopPropagation()
+              onDelete(task)
             }} 
             variant="outlined" 
             color="error" 
-            sx={styles.buttonStyle}>
+            sx={styles.buttonDeleteStyle}>
               Delete
             </Button>
           </Box>
